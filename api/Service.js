@@ -27,10 +27,10 @@ class Service {
 
     try {
       const response = await axios(axiosConfig);
-      if (response.status >= 200 || response.status <= 299) {
+      if (response.status >= 200 && response.status <= 299) {
         return response.data;
       }
-      if (response.status >= 400 || response.status <= 499) {
+      if (response.status >= 400 && response.status <= 499) {
         return false;
       }
       throw response;

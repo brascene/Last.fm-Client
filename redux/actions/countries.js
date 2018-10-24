@@ -23,15 +23,20 @@ export const getCountries = () => async dispatch => {
 
 export const handleCountries = (countries) => async dispatch => {
   if (countries.length > 0) {
-    dispatch({ type: COUNTRIES_REQUEST_SUCCESS, payload: countries });
+    console.log("Success")
+    console.log(countries)
     let resultCountries = []
     for (let i = 0; i < countries.length; i ++) {
+      console.log("Countries[i] equals ", countries[i])
       let c = {
+        key: i.toString(),
         name: countries[i].name,
-        flag: countries[i].flag
+        flag: countries[i].flag,
+        code: countries[i].alpha2Code
       }
       resultCountries.push(c)
     }
+    dispatch({ type: COUNTRIES_REQUEST_SUCCESS, payload: resultCountries });
     await appStorage.storeCountries(resultCountries)
   }
   return false;
