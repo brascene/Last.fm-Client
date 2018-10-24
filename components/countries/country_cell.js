@@ -9,7 +9,6 @@ export const CountryCellSeparator = () => (
 )
 
 export const CountryCell = ({ name, code, didSelectRow }) => {
-  console.log("Code: ", code)
   return (
     <TouchableWithoutFeedback onPress={() => didSelectRow(name)}>
       <View style={styles.cellContent}>

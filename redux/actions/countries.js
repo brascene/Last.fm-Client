@@ -6,7 +6,17 @@ import {
   COUNTRIES_REQUEST,
   COUNTRIES_REQUEST_SUCCESS,
   COUNTRIES_REQUEST_FAILURE,
+  SAVE_LOCAL_COUNTRIES,
+  FILTER_COUNTRIES,
+  FILTER_COUNTRIES_CLEAR
 } from "./types"
+
+export const saveLocalCountries = countries => dispatch => {
+  return dispatch({
+    type: SAVE_LOCAL_COUNTRIES,
+    payload: countries
+  })
+}
 
 export const getCountries = () => async dispatch => {
   dispatch({ type: COUNTRIES_REQUEST });
@@ -20,6 +30,20 @@ export const getCountries = () => async dispatch => {
     });
   }
 };
+
+export const filterCountries = value => dispatch => {
+  console.log("Trying to filter: ", value)
+  if (value == "") {
+    return dispatch({
+      type: FILTER_COUNTRIES_CLEAR
+    })
+  } else {
+    return dispatch({
+      type: FILTER_COUNTRIES,
+      payload: value
+    })
+  }
+}
 
 export const handleCountries = (countries) => async dispatch => {
   if (countries.length > 0) {
