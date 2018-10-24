@@ -32,7 +32,6 @@ export const getCountries = () => async dispatch => {
 };
 
 export const filterCountries = value => dispatch => {
-  console.log("Trying to filter: ", value)
   if (value == "") {
     return dispatch({
       type: FILTER_COUNTRIES_CLEAR
@@ -47,16 +46,13 @@ export const filterCountries = value => dispatch => {
 
 export const handleCountries = (countries) => async dispatch => {
   if (countries.length > 0) {
-    console.log("Success")
-    console.log(countries)
     let resultCountries = []
     for (let i = 0; i < countries.length; i ++) {
-      console.log("Countries[i] equals ", countries[i])
       let c = {
         key: i.toString(),
         name: countries[i].name,
-        flag: countries[i].flag,
-        code: countries[i].alpha2Code
+        flag: countries[i].flag,      // This uri is .svg and cannot render it correctly
+        code: countries[i].alpha2Code // I'll use this code to get local image
       }
       resultCountries.push(c)
     }
