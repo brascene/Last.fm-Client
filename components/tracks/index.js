@@ -94,6 +94,7 @@ class Tracks extends React.Component {
     if (api_sig !== "") {
       // handle request
       AlertScreen("Great", "You're already logged in", [])
+      
     } else {
       AlertScreen("Please log in", "We need you to be logged in to be able to love this track", [])
     }

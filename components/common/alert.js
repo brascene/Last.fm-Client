@@ -13,7 +13,7 @@ const createOptions = options => {
         }
       ];
     default:
-      return [{ text: "OK" }];
+      return [{ text: "Done" }];
   }
 };
 

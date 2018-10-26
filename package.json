@@ -6,7 +6,16 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "pretty": "prettier --semi false --print-width 100 --single-quote --trailin-comma all --write \"components/**/*.js\"",
+    "precommit": "lint-staged && yarn test",
+    "lint": "eslint components"
+  },
+  "lint-staged": {
+    ".js": [
+      "yarn pretty",
+      "git add"
+    ]
   },
   "dependencies": {
     "add": "^2.0.6",
@@ -24,5 +33,17 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "yarn": "^1.10.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-flowtype": "^3.1.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3"
   }
 }
