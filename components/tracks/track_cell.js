@@ -11,9 +11,9 @@ export const TrackCellSeparator = () => (
 
 export default class TrackCell extends React.PureComponent {
   render() {
-    let { artist, name, listeners, trackImageUrl, mbid, didSelectRow } = this.props
+    let { artist, name, listeners, trackImageUrl, mbid, didSelectRow, trackImageLarge } = this.props
     return (
-      <TouchableWithoutFeedback onPress={() => didSelectRow({ name, artist, mbid })}>
+      <TouchableWithoutFeedback onPress={() => didSelectRow({ name, artist, mbid, trackImageUrl, listeners, trackImageLarge })}>
         <View style={styles.cellContent}>
           <Image style={styles.cellImage} source={{ uri: trackImageUrl }} resizeMode='cover' />
           <View style={styles.trackData}>

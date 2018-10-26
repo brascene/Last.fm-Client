@@ -17,6 +17,14 @@ export default class TableView extends React.Component {
     this.keyboardDidHideListener.remove();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.shouldScrollToTop) {
+      this.scrollToTop()
+    }
+  }
+
+  componendDidrece
+
   _keyboardDidShow () {
     this.setState({ keyboardOpen: true })
   }
@@ -32,6 +40,10 @@ export default class TableView extends React.Component {
     Keyboard.dismiss()
   }
 
+  scrollToTop = () => {
+    this.refs.listRef.scrollToOffset({x: 0, y: 0, animated: true})
+  }
+
   render() {
     const { cell, separator } = this.props
     const Cell = cell
@@ -40,6 +52,7 @@ export default class TableView extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
+          ref="listRef"
           keyboardDismissMode='interactive'
           onScrollBeginDrag={this.closeKeyboard}
           data={dataSource} 
@@ -55,6 +68,7 @@ export default class TableView extends React.Component {
 TableView.propTypes = {
   dataSource: PropTypes.array,
   didSelectRow: PropTypes.func,
+  shouldScrollToTop: PropTypes.bool,
   cell: PropTypes.func
 }
 

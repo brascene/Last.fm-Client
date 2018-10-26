@@ -52,6 +52,7 @@ export const handleTracks = data => dispatch => {
         "artist": currentTrack.artist.name,
         "listeners": currentTrack.listeners,
         "trackImageUrl": currentTrack.image[2]["#text"],
+        "trackImageLarge": currentTrack.image[3]["#text"],
         "mbid": currentTrack.mbid
       }
       resultTracks.push(c)

@@ -2,6 +2,7 @@ import { createStackNavigator } from "react-navigation";
 
 import Countries from '../components/countries'
 import Tracks from '../components/tracks'
+import TrackDetail from '../components/track_details'
 
 export const RootNavigator = createStackNavigator({
   Countries: {
@@ -13,6 +14,9 @@ export const RootNavigator = createStackNavigator({
     navigationOptions: {
       gesturesEnabled: false
     }
+  },
+  TrackDetail: {
+    screen: TrackDetail
   }
 }, {
     initialRouteName: 'Countries',

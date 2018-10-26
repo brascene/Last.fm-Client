@@ -19,7 +19,8 @@ class Tracks extends React.Component {
     loading: true,
     loaderTitle: "Fetching tracks...",
     currentPage: 1,
-    message: ""
+    message: "",
+    shouldScrollToTop: false
   }
 
   static navigationOptions = {
@@ -36,27 +37,32 @@ class Tracks extends React.Component {
       this.setState({
         loading: false,
         tracks: nextProps.topTracks,
-        message: ""
+        message: "",
+        shouldScrollToTop: true
       })
     }
     if (!nextProps.hasError && !nextProps.loading && nextProps.topTracks.length === 0) {
       this.setState({
         loading: false,
-        message: "No results found."
+        message: "No results found.",
+        shouldScrollToTop: false
       })
     }
     if (nextProps.hasError) {
       this.setState({
         loading: false,
         tracks: [],
-        message: ""
+        message: "",
+        shouldScrollToTop: false
       })
       AlertScreen("Request error", nextProps.error, ["OK"])
     }
   }
 
   didSelectRow = track => {
-    // navigate to details
+    this.props.navigation.navigate('TrackDetail', {
+      track
+    })
   }
 
   pageChanged = direction => {
@@ -83,13 +89,14 @@ class Tracks extends React.Component {
   }
 
   render() {
-    let { tracks, loading, currentPage, message } = this.state
+    let { tracks, loading, currentPage, message, shouldScrollToTop } = this.state
     return (
       <View style={styles.container}>
           <ActivityIndicator animating={loading} style={styles.loader} size="large" color="#0000ff" />
           {message !== "" && <Text style={styles.noDataMsg}>{message}</Text>}
           <View style={styles.tableAndButtons}>
             <TableView
+              shouldScrollToTop={shouldScrollToTop}
               dataSource={tracks}
               didSelectRow={this.didSelectRow}
               cell={TrackCell}
