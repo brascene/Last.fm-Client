@@ -5,31 +5,31 @@ import { connect } from 'react-redux'
 
 import { Button } from 'react-native-elements'
 import TableView from '../common/tableView'
-import { TrackCellSeparator } from './track_cell'
-import TrackCell from './track_cell'
+import TrackCell, { TrackCellSeparator } from './track_cell'
 import AlertScreen from '../common/alert'
 
-import { getTopTracks, loveThisTrack } from '../../redux/actions'
+import { getTopTracks } from '../../redux/actions'
+// import { loveThisTrack } from '../../redux/actions'
+
 import { appStorage } from '../../api/Storage'
 
 import styles from './styles'
 
 class Tracks extends React.Component {
+  static navigationOptions = {
+    title: 'Top Tracks',
+  }
+
   state = {
     tracks: [],
     loading: true,
-    loaderTitle: "Fetching tracks...",
     currentPage: 1,
-    message: "",
-    shouldScrollToTop: false
-  }
-
-  static navigationOptions = {
-    title: 'Top Tracks'
+    message: '',
+    shouldScrollToTop: false,
   }
 
   componentDidMount() {
-    let country = this.props.navigation.getParam('country', '');
+    const country = this.props.navigation.getParam('country', '')
     this.props.getTopTracks(country)
   }
 
@@ -38,89 +38,103 @@ class Tracks extends React.Component {
       this.setState({
         loading: false,
         tracks: nextProps.topTracks,
-        message: "",
-        shouldScrollToTop: true
+        message: '',
+        shouldScrollToTop: true,
       })
     }
     if (!nextProps.hasError && !nextProps.loading && nextProps.topTracks.length === 0) {
       this.setState({
         loading: false,
-        message: "No results found.",
-        shouldScrollToTop: false
+        message: 'No results found.',
+        shouldScrollToTop: false,
       })
     }
     if (nextProps.hasError) {
       this.setState({
         loading: false,
         tracks: [],
-        message: "",
-        shouldScrollToTop: false
+        message: '',
+        shouldScrollToTop: false,
       })
-      AlertScreen("Request error", nextProps.error, ["OK"])
+      AlertScreen('Request error', nextProps.error, ['OK'])
     }
   }
 
-  didSelectRow = track => {
+  didSelectRow = (track) => {
     this.props.navigation.navigate('TrackDetail', {
-      track
+      track,
     })
   }
 
-  pageChanged = direction => {
-    let { totalPages } = this.props
-    let { currentPage } = this.state
-    let country = this.props.navigation.getParam('country', '');
+  pageChanged = (direction) => {
+    const { totalPages } = this.props
+    const { currentPage } = this.state
+    const country = this.props.navigation.getParam('country', '')
     if (direction) {
       if (currentPage < totalPages) {
         this.setState({ loading: true })
         this.props.getTopTracks(country, currentPage + 1)
-        this.setState((prevState) => ({
+        this.setState(prevState => ({
           currentPage: prevState.currentPage + 1,
-        }));
+        }))
       }
-    } else {
-      if (currentPage > 1) {
-        this.setState({ loading: true })
-        this.props.getTopTracks(country, currentPage - 1)
-        this.setState((prevState) => ({
-          currentPage: prevState.currentPage - 1
-        }));
-      }
+    } else if (currentPage > 1) {
+      this.setState({ loading: true })
+      this.props.getTopTracks(country, currentPage - 1)
+      this.setState(prevState => ({
+        currentPage: prevState.currentPage - 1,
+      }))
     }
   }
 
   handleLoveTrack = async () => {
-    let api_sig = await appStorage.getApiSig()
-    if (api_sig !== "") {
+    const api_sig = await appStorage.getApiSig()
+    if (api_sig !== '') {
       // handle request
-      AlertScreen("Great", "You're already logged in", [])
-      
+      AlertScreen('Great', "You're already logged in", [])
     } else {
-      AlertScreen("Please log in", "We need you to be logged in to be able to love this track", [])
+      AlertScreen('Please log in', 'We need you to be logged in to be able to love this track', [])
     }
   }
 
   render() {
-    let { tracks, loading, currentPage, message, shouldScrollToTop } = this.state
+    const {
+      tracks, loading, currentPage, message, shouldScrollToTop,
+    } = this.state
     return (
       <View style={styles.container}>
-          <ActivityIndicator animating={loading} style={styles.loader} size="large" color="#0000ff" />
-          {message !== "" && <Text style={styles.noDataMsg}>{message}</Text>}
-          <View style={styles.tableAndButtons}>
-            <TableView
-              shouldScrollToTop={shouldScrollToTop}
-              dataSource={tracks}
-              loveThisTrack={this.handleLoveTrack}
-              didSelectRow={this.didSelectRow}
-              cell={TrackCell}
-              separator={TrackCellSeparator}
+        <ActivityIndicator animating={loading} style={styles.loader} size="large" color="#0000ff" />
+        {message !== '' && <Text style={styles.noDataMsg}>{message}</Text>}
+        <View style={styles.tableAndButtons}>
+          <TableView
+            shouldScrollToTop={shouldScrollToTop}
+            dataSource={tracks}
+            loveThisTrack={this.handleLoveTrack}
+            didSelectRow={this.didSelectRow}
+            cell={TrackCell}
+            separator={TrackCellSeparator}
+          />
+          <View style={styles.pagingButtons}>
+            <Button
+              disabled={currentPage === 1}
+              borderRadius={5}
+              containerViewStyle={styles.pagingBtn}
+              backgroundColor="#005073"
+              rightIcon={{ name: 'navigate-before' }}
+              title="Prev"
+              onPress={() => this.pageChanged(false)}
             />
-            <View style={styles.pagingButtons}>
-              <Button disabled={currentPage === 1} borderRadius={5} containerViewStyle={styles.pagingBtn} backgroundColor="#005073" rightIcon={{ name: 'navigate-before' }} title="Prev" onPress={() => this.pageChanged(false)} />
-              <Text>{`Page: ${currentPage}`}</Text>
-              <Button borderRadius={5} containerViewStyle={styles.pagingBtn} backgroundColor="#005073" rightIcon={{ name: 'navigate-next' }} title="Next" onPress={() => this.pageChanged(true)} />
-            </View>
+            <Text>{`Page: ${currentPage}`}</Text>
+            <Button
+              borderRadius={5}
+              containerViewStyle={styles.pagingBtn}
+              backgroundColor="#005073"
+              rightIcon={{ name: 'navigate-next' }}
+              title="Next"
+              onPress={() => this.pageChanged(true)}
+            />
           </View>
+        </View>
       </View>
     )
   }
@@ -129,25 +143,27 @@ class Tracks extends React.Component {
 Tracks.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
+    getParam: PropTypes.func,
   }).isRequired,
-  getTopTracks: PropTypes.func,
-  topTracks: PropTypes.array,
-  loading: PropTypes.bool,
-  hasError: PropTypes.bool,
-  error: PropTypes.string,
-  totalPages: PropTypes.number,
-  loveThisTrack: PropTypes.func
-};
+  getTopTracks: PropTypes.func.isRequired,
+  topTracks: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
+  totalPages: PropTypes.number.isRequired,
+}
 
-mapStateToProps = state => {
-  let { tracks, loading, hasError, error, totalPages } = state.tracksState
+const mapStateToProps = (state) => {
+  const {
+    tracks, loading, hasError, error, totalPages,
+  } = state.tracksState
   return {
     topTracks: tracks,
     loading,
     hasError,
     error,
-    totalPages: parseInt(totalPages)
+    totalPages: parseInt(totalPages),
   }
 }
 
-export default connect(mapStateToProps, { getTopTracks, loveThisTrack })(Tracks)
+export default connect(mapStateToProps, { getTopTracks })(Tracks)

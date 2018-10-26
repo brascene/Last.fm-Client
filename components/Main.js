@@ -1,12 +1,9 @@
-import React, { Component } from "react";
-import { RootNavigator } from "../navigation";
+import React from 'react'
+import RootNavigator from '../navigation'
 
-class MainBase extends Component {
-  render() {
-    return (
-      <RootNavigator />
-    );
-  }
-}
+// Created this additional wrapper for any other cases of root navigation
+const MainBase = () => (
+  <RootNavigator />
+)
 
-export default MainBase;
+export default MainBase

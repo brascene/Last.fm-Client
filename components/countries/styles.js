@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   contentView: {
     width,
@@ -16,29 +16,29 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     alignItems: 'center',
     justifyContent: 'space-around',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   text: {
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
-    color: 'red'
+    color: 'red',
   },
   searchAndTableContainer: {
     flexDirection: 'column',
-    width: '100%', 
-    height: '100%'
+    width: '100%',
+    height: '100%',
   },
   cellContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    width: '100%'
+    width: '100%',
   },
   cellText: {
     color: 'gray',
     fontWeight: '400',
-    fontSize: 16
+    fontSize: 16,
   },
   cellImage: {
     width: 70,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: '#CED0CE',
-  }
-});
+  },
+})
 
-export default styles;
+export default styles

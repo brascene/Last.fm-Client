@@ -4,25 +4,37 @@ import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { loveThisTrack } from '../../redux/actions'
+// import { loveThisTrack } from '../../redux/actions'
 import styles from './styles'
 
 class TrackDetail extends React.PureComponent {
   static navigationOptions = {
-    title: "Details"
+    title: 'Details',
   }
+
   render() {
-    let { name, artist, mbid, listeners, trackImageLarge } = this.props.navigation.getParam('track', '');
+    const {
+      name, artist, listeners, trackImageLarge,
+    } = this.props.navigation.getParam('track', '')
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: trackImageLarge }} resizeMode='cover' />
+        <Image style={styles.image} source={{ uri: trackImageLarge }} resizeMode="cover" />
         <View style={styles.trackInfo}>
-          <Text style={styles.text}>Artist: {artist}</Text>
-          <Text style={styles.text}>Title: {name}</Text>
-          <Text style={styles.text}>Listeners: {listeners}</Text>
+          <Text style={styles.text}>
+          Artist:
+            {artist}
+          </Text>
+          <Text style={styles.text}>
+          Title:
+            {name}
+          </Text>
+          <Text style={styles.text}>
+          Listeners:
+            {listeners}
+          </Text>
         </View>
         <View style={styles.loveView}>
-          <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite'}} title="Love" onPress={() => this.props.loveThisTrack()} />
+          <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite' }} title="Love" onPress={() => this.props.loveThisTrack()} />
         </View>
       </View>
     )
@@ -30,11 +42,11 @@ class TrackDetail extends React.PureComponent {
 }
 
 TrackDetail.propTypes = {
-  imageUrl: PropTypes.string,
-  artist: PropTypes.string,
-  trackName: PropTypes.string,
-  listeners: PropTypes.string,
-  loveThisTrack: PropTypes.func
+  loveThisTrack: PropTypes.func.isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    getParam: PropTypes.func,
+  }).isRequired,
 }
 
-export default connect(null, { loveThisTrack })(TrackDetail)
+export default connect(null, {})(TrackDetail)

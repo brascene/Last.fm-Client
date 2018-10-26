@@ -9,20 +9,18 @@ import { getCountries, filterCountries, saveLocalCountries } from '../../redux/a
 import { appStorage } from '../../api/Storage'
 
 import TableView from '../common/tableView'
-import CountryCell from './country_cell'
-import { CountryCellSeparator } from './country_cell'
+import CountryCell, { CountryCellSeparator } from './country_cell'
 import LoaderScreen from '../common/loader'
 
 class CountriesPage extends React.Component {
-  state = {
-    animating: true,
-    message: "This should be loader page (while downloading countries), and after that show the list of countries as requested.",
-    countries: [],
-    searchValue: ""
+  static navigationOptions = {
+    title: 'Countries',
   }
 
-  static navigationOptions = {
-    title: 'Countries'
+  state = {
+    animating: true,
+    countries: [],
+    searchValue: '',
   }
 
   componentDidMount() {
@@ -33,97 +31,106 @@ class CountriesPage extends React.Component {
     if (nextProps.isFiltering) {
       this.setState({
         animating: false,
-        message: "Countries fetched!",
-        countries: nextProps.filteredCountries
+        countries: nextProps.filteredCountries,
       })
-    } else {
-      if (nextProps.countries.length > 0) {
-        this.setState({
-          animating: false,
-          message: "Countries fetched!",
-          countries: nextProps.countries
-        })
-      }
+    } else if (nextProps.countries.length > 0) {
+      this.setState({
+        animating: false,
+        countries: nextProps.countries,
+      })
     }
   }
 
-  didSelectRow = name => {
-    this.props.navigation.navigate('Tracks', {
-      country: name
+  didSelectRow = (name) => {
+    const { navigation } = this.props
+    navigation.navigate('Tracks', {
+      country: name,
     })
   }
 
   checkCountries = async () => {
-    let offlineCountries = await appStorage.getCountries()
+    const offlineCountries = await appStorage.getCountries()
+    const { saveLocalCountries, getCountries } = this.props
     if (offlineCountries && offlineCountries.length > 0) {
-      this.props.saveLocalCountries(offlineCountries)
+      saveLocalCountries(offlineCountries)
       this.setState({
-        message: `Already fetched ${offlineCountries.length} countries`,
         animating: false,
-        countries: offlineCountries
+        countries: offlineCountries,
       })
     } else {
-      this.props.getCountries()
+      getCountries()
     }
   }
 
-  searchBarDidUpdate = text => {
-    if (text === "") {
+  searchBarDidUpdate = (text) => {
+    const { filterCountries } = this.props
+    if (text === '') {
       this.search.blur()
-      this.props.filterCountries("")
+      filterCountries('')
     } else {
       this.setState({
-        searchValue: text
+        searchValue: text,
       })
-      this.props.filterCountries(text.toLowerCase())
+      filterCountries(text.toLowerCase())
     }
   }
 
   render() {
-    let { animating, message, countries, searchValue } = this.state
+    const {
+      animating, countries, searchValue,
+    } = this.state
     return (
       <View style={styles.container}>
-        {animating ? <LoaderScreen title="Fetching countries..." /> :
-          <View style={styles.searchAndTableContainer}>
-            <SearchBar
-              ref={search => this.search = search}
-              lightTheme
-              value={searchValue}
-              containerStyle={{ backgroundColor: 'white' }}
-              inputStyle={{ backgroundColor: 'white' }}
-              clearIcon={{ color: 'black' }}
-              searchIcon
-              onChangeText={this.searchBarDidUpdate}
-              placeholder='Search your country...'
-            />
-            <TableView
-              dataSource={countries}
-              didSelectRow={this.didSelectRow}
-              cell={CountryCell}
-              separator={CountryCellSeparator}
-            />
-          </View>}
+        {animating ? <LoaderScreen title="Fetching countries..." />
+          : (
+            <View style={styles.searchAndTableContainer}>
+              <SearchBar
+                ref={search => this.search = search}
+                lightTheme
+                value={searchValue}
+                containerStyle={{ backgroundColor: 'white' }}
+                inputStyle={{ backgroundColor: 'white' }}
+                clearIcon={{ color: 'black' }}
+                searchIcon
+                onChangeText={this.searchBarDidUpdate}
+                placeholder="Search your country..."
+              />
+              <TableView
+                dataSource={countries}
+                didSelectRow={this.didSelectRow}
+                cell={CountryCell}
+                separator={CountryCellSeparator}
+              />
+            </View>
+          )}
       </View>
     )
   }
 }
 
 CountriesPage.propTypes = {
-  getCountries: PropTyes.func,
-  filterCountries: PropTyes.func,
-  saveLocalCountries: PropTyes.func,
-  isFiltering: PropTyes.bool,
-  filteredCountries: PropTyes.array,
-  countries: PropTyes.array
+  getCountries: PropTyes.func.isRequired,
+  filterCountries: PropTyes.func.isRequired,
+  saveLocalCountries: PropTyes.func.isRequired,
+  isFiltering: PropTyes.bool.isRequired,
+  filteredCountries: PropTyes.array.isRequired,
+  countries: PropTyes.array.isRequired,
+  navigation: PropTyes.shape({
+    navigate: PropTyes.func.isRequired,
+  }).isRequired,
 }
 
-mapStateToProps = state => {
-  let { countries, isFiltering, filteredCountries } = state.countriesState
+const mapStateToProps = (state) => {
+  const { countries, isFiltering, filteredCountries } = state.countriesState
   return {
     countries,
     isFiltering,
-    filteredCountries
+    filteredCountries,
   }
 }
 
-export default connect(mapStateToProps, { getCountries, filterCountries, saveLocalCountries })(CountriesPage)
+export default connect(mapStateToProps, {
+  getCountries,
+  filterCountries,
+  saveLocalCountries,
+})(CountriesPage)

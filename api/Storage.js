@@ -1,9 +1,9 @@
-import store from "react-native-simple-store";
-import config from "./config"
+import store from 'react-native-simple-store'
+import config from './config'
 
 export class Storage {
   constructor() {
-    this.COUNTRIES = [];
+    this.COUNTRIES = []
     this.COUNTRIES_KEY = config.StorageKeys.countries
     this.API_SIG_KEY = config.StorageKeys.api_sig
   }
@@ -13,12 +13,12 @@ export class Storage {
   }
 
   async storeCountries(countries) {
-    await store.save(this.COUNTRIES_KEY, countries);
+    await store.save(this.COUNTRIES_KEY, countries)
   }
 
   async getCountries() {
-    const countries = await store.get(this.COUNTRIES_KEY);
-    return countries;
+    const countries = await store.get(this.COUNTRIES_KEY)
+    return countries
   }
 
   async getApiSig() {
@@ -27,8 +27,8 @@ export class Storage {
   }
 
   deleteCountries() {
-    return store.delete(this.COUNTRIES_KEY);
+    return store.delete(this.COUNTRIES_KEY)
   }
 }
 
-export const appStorage = new Storage();
+export const appStorage = new Storage()

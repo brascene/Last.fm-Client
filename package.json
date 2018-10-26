@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "eject": "expo eject",
     "pretty": "prettier --semi false --print-width 100 --single-quote --trailin-comma all --write \"components/**/*.js\"",
-    "precommit": "lint-staged && yarn test",
+    "precommit": "lint-staged",
     "lint": "eslint components"
   },
   "lint-staged": {

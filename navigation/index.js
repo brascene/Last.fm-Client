@@ -1,24 +1,26 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from 'react-navigation'
 
 import Countries from '../components/countries'
 import Tracks from '../components/tracks'
 import TrackDetail from '../components/track_details'
 
-export const RootNavigator = createStackNavigator({
+const RootNavigator = createStackNavigator({
   Countries: {
     screen: Countries,
-    gesturesEnabled: false
+    gesturesEnabled: false,
   },
   Tracks: {
     screen: Tracks,
     navigationOptions: {
-      gesturesEnabled: false
-    }
+      gesturesEnabled: false,
+    },
   },
   TrackDetail: {
-    screen: TrackDetail
-  }
+    screen: TrackDetail,
+  },
 }, {
-    initialRouteName: 'Countries',
-    headerMode: 'float'
-  })
+  initialRouteName: 'Countries',
+  headerMode: 'float',
+})
+
+export default RootNavigator
