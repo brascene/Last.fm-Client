@@ -29,6 +29,10 @@ export class Storage {
   deleteCountries() {
     return store.delete(this.COUNTRIES_KEY)
   }
+
+  deleteApiSig() {
+    return store.delete(this.API_SIG_KEY)
+  }
 }
 
 export const appStorage = new Storage()
