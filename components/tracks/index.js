@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 
 import { Button } from 'react-native-elements'
 import TableView from '../common/tableView'
-import { TrackCell, TrackCellSeparator } from './track_cell'
+import { TrackCellSeparator } from './track_cell'
+import TrackCell from './track_cell'
 import AlertScreen from '../common/alert'
 
 import { getTopTracks } from '../../redux/actions'
@@ -17,7 +18,8 @@ class Tracks extends React.Component {
     tracks: [],
     loading: true,
     loaderTitle: "Fetching tracks...",
-    currentPage: 1
+    currentPage: 1,
+    message: ""
   }
 
   static navigationOptions = {
@@ -33,19 +35,27 @@ class Tracks extends React.Component {
     if (nextProps.topTracks.length > 0 && !nextProps.loading) {
       this.setState({
         loading: false,
-        tracks: nextProps.topTracks
+        tracks: nextProps.topTracks,
+        message: ""
+      })
+    }
+    if (!nextProps.hasError && !nextProps.loading && nextProps.topTracks.length === 0) {
+      this.setState({
+        loading: false,
+        message: "No results found."
       })
     }
     if (nextProps.hasError) {
       this.setState({
         loading: false,
-        tracks: []
+        tracks: [],
+        message: ""
       })
       AlertScreen("Request error", nextProps.error, ["OK"])
     }
   }
 
-  didSelectRow = ({ name, artist, mbid }) => {
+  didSelectRow = track => {
     // navigate to details
   }
 
@@ -73,10 +83,11 @@ class Tracks extends React.Component {
   }
 
   render() {
-    let { tracks, loading, loaderTitle, currentPage } = this.state
+    let { tracks, loading, currentPage, message } = this.state
     return (
       <View style={styles.container}>
           <ActivityIndicator animating={loading} style={styles.loader} size="large" color="#0000ff" />
+          {message !== "" && <Text style={styles.noDataMsg}>{message}</Text>}
           <View style={styles.tableAndButtons}>
             <TableView
               dataSource={tracks}

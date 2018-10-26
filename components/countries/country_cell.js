@@ -9,15 +9,18 @@ export const CountryCellSeparator = () => (
   <View style={styles.cellSeparator}></View>
 )
 
-export const CountryCell = ({ name, code, didSelectRow }) => {
-  return (
-    <TouchableWithoutFeedback onPress={() => didSelectRow(name)}>
-      <View style={styles.cellContent}>
-        <Image style={styles.cellImage} source={codes[code]} resizeMode='cover' />
-        <Text style={styles.cellText}>{name}</Text>
-      </View>
-    </TouchableWithoutFeedback>
-  )
+export default class CountryCell extends React.PureComponent {
+  render() {
+    let { name, code, didSelectRow } = this.props
+    return (
+      <TouchableWithoutFeedback onPress={() => didSelectRow(name)}>
+        <View style={styles.cellContent}>
+          <Image style={styles.cellImage} source={codes[code]} resizeMode='cover' />
+          <Text style={styles.cellText}>{name}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
 }
 
 CountryCell.propTypes = {

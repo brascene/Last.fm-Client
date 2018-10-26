@@ -9,7 +9,8 @@ import { getCountries, filterCountries, saveLocalCountries } from '../../redux/a
 import { appStorage } from '../../api/Storage'
 
 import TableView from '../common/tableView'
-import { CountryCell, CountryCellSeparator } from './country_cell'
+import CountryCell from './country_cell'
+import { CountryCellSeparator } from './country_cell'
 import LoaderScreen from '../common/loader'
 
 class CountriesPage extends React.Component {

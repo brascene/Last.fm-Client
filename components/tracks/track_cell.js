@@ -9,23 +9,26 @@ export const TrackCellSeparator = () => (
   <View style={styles.cellSeparator}></View>
 )
 
-export const TrackCell = ({ artist, name, listeners, trackImageUrl, mbid, didSelectRow }) => {
-  return (
-    <TouchableWithoutFeedback onPress={() => didSelectRow({ name, artist, mbid })}>
-      <View style={styles.cellContent}>
-        <Image style={styles.cellImage} source={{ uri: trackImageUrl }} resizeMode='cover' />
-        <View style={styles.trackData}>
-          <Text style={styles.cellText}>{name}</Text>
-          <Text style={styles.cellText}>{artist}</Text>
-          <Text style={styles.cellText}>{`Listeners: ${listeners}`}</Text>
-          <View style={styles.buttonView}>
-            <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite'}} title="Love" onPress={() => loveThisTrack()} />
-            <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#bcc0f0" rightIcon={{ name: 'info' }} title="Info" onPress={() => didSelectRow({ name, artist, mbid })} />
+export default class TrackCell extends React.PureComponent {
+  render() {
+    let { artist, name, listeners, trackImageUrl, mbid, didSelectRow } = this.props
+    return (
+      <TouchableWithoutFeedback onPress={() => didSelectRow({ name, artist, mbid })}>
+        <View style={styles.cellContent}>
+          <Image style={styles.cellImage} source={{ uri: trackImageUrl }} resizeMode='cover' />
+          <View style={styles.trackData}>
+            <Text style={styles.cellText}>{name}</Text>
+            <Text style={styles.cellText}>{artist}</Text>
+            <Text style={styles.cellText}>{`Listeners: ${listeners}`}</Text>
+            <View style={styles.buttonView}>
+              <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite'}} title="Love" onPress={() => loveThisTrack()} />
+              <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#bcc0f0" rightIcon={{ name: 'info' }} title="Info" onPress={() => didSelectRow({ name, artist, mbid })} />
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-  )
+      </TouchableWithoutFeedback>
+    )
+  }
 }
 
 TrackCell.propTypes = {

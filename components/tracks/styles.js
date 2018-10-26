@@ -84,6 +84,13 @@ const styles = StyleSheet.create({
   loader: {
     position: 'absolute',
     top: h / 3
+  },
+  noDataMsg: {
+    position: 'absolute',
+    top: h / 3 + 50,
+    color: 'red',
+    fontWeight: '400',
+    fontSize: 14
   }
 });
 

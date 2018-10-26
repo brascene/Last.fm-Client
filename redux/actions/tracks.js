@@ -7,19 +7,37 @@ import {
   TRACKS_REQUEST_FAILURE
 } from "./types"
 
+function getCountryName(country) {
+  if (country.indexOf("America") !== -1) return "United States"
+  if (country.indexOf("Britain") !== -1) return "United Kingdom"
+  return country
+}
+
 export const getTopTracks = (country, page = 1) => async dispatch => {
   dispatch({ type: TRACKS_REQUEST });
+
+  let countryName = getCountryName(country)
   try {
-    const endpoint = `?method=geo.gettoptracks&country=${country}&api_key=${config.FM.APIKey}&format=json&limit=50&page=${page}`
+    const endpoint = `?method=geo.gettoptracks&country=${countryName}&api_key=${config.FM.APIKey}&format=json&limit=50&page=${page}`
     const data = await Service().makeRequest("get", endpoint, null, null)
-    return dispatch(handleTracks(data));
+
+    if (data["error"] !== undefined) {
+      return dispatch({
+        type: TRACKS_REQUEST_FAILURE,
+        payload: data["error"]
+      })
+    } else {
+      return dispatch(handleTracks(data));
+    }
   } catch (error) {
-    let errorObject = error["response"].data
-    let errorCode = errorObject["error"]
-    return dispatch({
-      type: TRACKS_REQUEST_FAILURE,
-      payload: errorCode
-    });
+    if (error["response"] !== undefined) {
+      let errorObject = error["response"].data
+      let errorCode = errorObject["error"]
+      return dispatch({
+        type: TRACKS_REQUEST_FAILURE,
+        payload: errorCode
+      });
+    }
   }
 }
 
