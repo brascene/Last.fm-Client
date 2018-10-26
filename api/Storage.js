@@ -5,6 +5,11 @@ export class Storage {
   constructor() {
     this.COUNTRIES = [];
     this.COUNTRIES_KEY = config.StorageKeys.countries
+    this.API_SIG_KEY = config.StorageKeys.api_sig
+  }
+
+  async storeApiSig(api_sig) {
+    await store.save(this.API_SIG_KEY, api_sig)
   }
 
   async storeCountries(countries) {
@@ -14,6 +19,11 @@ export class Storage {
   async getCountries() {
     const countries = await store.get(this.COUNTRIES_KEY);
     return countries;
+  }
+
+  async getApiSig() {
+    const api_sig = await store.get(this.API_SIG_KEY)
+    return api_sig
   }
 
   deleteCountries() {

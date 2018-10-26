@@ -6,7 +6,8 @@ export default {
     APIKey: "792a09a80600cef2b341ae0436ad42f6"
   },
   StorageKeys: {
-    countries: "countries"
+    countries: "countries",
+    api_sig: "api_sig"
   },
   API: {
     contentType: {
