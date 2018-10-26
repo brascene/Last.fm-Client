@@ -9,7 +9,8 @@ import { TrackCellSeparator } from './track_cell'
 import TrackCell from './track_cell'
 import AlertScreen from '../common/alert'
 
-import { getTopTracks } from '../../redux/actions'
+import { getTopTracks, loveThisTrack } from '../../redux/actions'
+import { appStorage } from '../../api/Storage'
 
 import styles from './styles'
 
@@ -88,6 +89,16 @@ class Tracks extends React.Component {
     }
   }
 
+  handleLoveTrack = async () => {
+    let api_sig = await appStorage.getApiSig()
+    if (api_sig !== "") {
+      // handle request
+      AlertScreen("Great", "You're already logged in", [])
+    } else {
+      AlertScreen("Please log in", "We need you to be logged in to be able to love this track", [])
+    }
+  }
+
   render() {
     let { tracks, loading, currentPage, message, shouldScrollToTop } = this.state
     return (
@@ -98,6 +109,7 @@ class Tracks extends React.Component {
             <TableView
               shouldScrollToTop={shouldScrollToTop}
               dataSource={tracks}
+              loveThisTrack={this.handleLoveTrack}
               didSelectRow={this.didSelectRow}
               cell={TrackCell}
               separator={TrackCellSeparator}
@@ -122,7 +134,8 @@ Tracks.propTypes = {
   loading: PropTypes.bool,
   hasError: PropTypes.bool,
   error: PropTypes.string,
-  totalPages: PropTypes.number
+  totalPages: PropTypes.number,
+  loveThisTrack: PropTypes.func
 };
 
 mapStateToProps = state => {
@@ -136,4 +149,4 @@ mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { getTopTracks })(Tracks)
+export default connect(mapStateToProps, { getTopTracks, loveThisTrack })(Tracks)

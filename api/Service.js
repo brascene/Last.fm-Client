@@ -10,14 +10,11 @@ class Service {
   }
 
   async createApiSignature(username, password) {
-    let encodedPassword = encodeURIComponent(password)
-    console.log("encodedPassword: ", encodedPassword)
-    let parameters = `apiKey${config.FM.APIKey}method: auth.getMobileSessionpassword${encodedPassword}username${username}secret${config.FM.sharedSecret}`
+    let encodedPassword = encodeURI(password)
+    let parameters = `api_key${config.FM.APIKey}methodauth.getMobileSessionpassword${encodedPassword}username${username}${config.FM.sharedSecret}`
     let encodedParameters = encodeURI(parameters)
     let api_sig = md5(encodedParameters)
-    console.log("api_sig= ", api_sig)
-    console.log("api_sig= ", api_sig.toString())
-    await appStorage.storeApiSig(api_sig)
+    await appStorage.storeApiSig(api_sig.toString())
   }
 
   async makeRequest(method, endpoint, body, header) {

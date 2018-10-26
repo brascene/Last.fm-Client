@@ -58,7 +58,7 @@ export default class TableView extends React.Component {
           data={dataSource} 
           extraData={dataSource}
           ItemSeparatorComponent={() => <Separator />}
-          renderItem={({ item }) => <Cell {...item} didSelectRow={didSelectRow} />}
+          renderItem={({ item }) => <Cell {...item} {...this.props} />}
         />
       </View>
     )
@@ -68,6 +68,7 @@ export default class TableView extends React.Component {
 TableView.propTypes = {
   dataSource: PropTypes.array,
   didSelectRow: PropTypes.func,
+  loveThisTrack: PropTypes.func,
   shouldScrollToTop: PropTypes.bool,
   cell: PropTypes.func
 }

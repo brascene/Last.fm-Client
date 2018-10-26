@@ -11,7 +11,7 @@ export const TrackCellSeparator = () => (
 
 export default class TrackCell extends React.PureComponent {
   render() {
-    let { artist, name, listeners, trackImageUrl, mbid, didSelectRow, trackImageLarge } = this.props
+    let { artist, name, listeners, trackImageUrl, mbid, didSelectRow, trackImageLarge, loveThisTrack } = this.props
     return (
       <TouchableWithoutFeedback onPress={() => didSelectRow({ name, artist, mbid, trackImageUrl, listeners, trackImageLarge })}>
         <View style={styles.cellContent}>
@@ -21,7 +21,7 @@ export default class TrackCell extends React.PureComponent {
             <Text style={styles.cellText}>{artist}</Text>
             <Text style={styles.cellText}>{`Listeners: ${listeners}`}</Text>
             <View style={styles.buttonView}>
-              <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite'}} title="Love" onPress={() => loveThisTrack()} />
+              <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite'}} title="Love" onPress={loveThisTrack} />
               <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#bcc0f0" rightIcon={{ name: 'info' }} title="Info" onPress={() => didSelectRow({ name, artist, mbid })} />
             </View>
           </View>
@@ -37,5 +37,6 @@ TrackCell.propTypes = {
   artist: PropTypes.string,
   listeners: PropTypes.string,
   trackImageUrl: PropTypes.string,
-  didSelectRow: PropTypes.func
+  didSelectRow: PropTypes.func,
+  loveThisTrack: PropTypes.func
 }
