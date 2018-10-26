@@ -35,7 +35,7 @@ class Service {
       }
       throw response;
     } catch (error) {
-      throw new Error(error);
+      throw error
     }
   }
 }

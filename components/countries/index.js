@@ -47,7 +47,7 @@ class CountriesPage extends React.Component {
   }
 
   didSelectRow = name => {
-    this.props.navigation.navigate('Screen2', {
+    this.props.navigation.navigate('Tracks', {
       country: name
     })
   }
@@ -83,25 +83,25 @@ class CountriesPage extends React.Component {
     return (
       <View style={styles.container}>
         {animating ? <LoaderScreen title="Fetching countries..." /> :
-        <View style={styles.searchAndTableContainer}>
-          <SearchBar
-            ref={search => this.search = search}
-            lightTheme
-            value={searchValue}
-            containerStyle={{ backgroundColor: 'white' }}
-            inputStyle={{ backgroundColor: 'white' }}
-            clearIcon={{ color: 'black' }}
-            searchIcon
-            onChangeText={this.searchBarDidUpdate}
-            placeholder='Search your country...' 
-          />
-          <TableView
-            dataSource={countries}
-            didSelectRow={this.didSelectRow}
-            cell={CountryCell}
-            separator={CountryCellSeparator}
-        />
-       </View>}
+          <View style={styles.searchAndTableContainer}>
+            <SearchBar
+              ref={search => this.search = search}
+              lightTheme
+              value={searchValue}
+              containerStyle={{ backgroundColor: 'white' }}
+              inputStyle={{ backgroundColor: 'white' }}
+              clearIcon={{ color: 'black' }}
+              searchIcon
+              onChangeText={this.searchBarDidUpdate}
+              placeholder='Search your country...'
+            />
+            <TableView
+              dataSource={countries}
+              didSelectRow={this.didSelectRow}
+              cell={CountryCell}
+              separator={CountryCellSeparator}
+            />
+          </View>}
       </View>
     )
   }

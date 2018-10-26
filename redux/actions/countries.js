@@ -1,4 +1,3 @@
-import { NavigationActions } from "react-navigation"
 import Service from "../../api"
 import { appStorage } from "../../api/Storage";
 

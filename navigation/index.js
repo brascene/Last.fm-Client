@@ -1,22 +1,20 @@
 import { createStackNavigator } from "react-navigation";
 
 import Countries from '../components/countries'
-import Screen2 from '../components/screen2'
+import Tracks from '../components/tracks'
 
 export const RootNavigator = createStackNavigator({
   Countries: {
     screen: Countries,
-    header: null,
     gesturesEnabled: false
   },
-  Screen2: {
-    screen: Screen2,
+  Tracks: {
+    screen: Tracks,
     navigationOptions: {
-      header: null,
       gesturesEnabled: false
     }
   }
 }, {
-    headerMode: "screen",
-    mode: "push"
+    initialRouteName: 'Countries',
+    headerMode: 'float'
   })
