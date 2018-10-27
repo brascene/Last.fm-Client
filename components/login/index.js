@@ -7,11 +7,13 @@ import {
 } from 'react-native'
 import { Button } from 'react-native-elements'
 import PropTyes from 'prop-types'
+import { connect } from 'react-redux'
 
 import ScreenAlert from '../common/alert'
 import styles from './styles'
+import { loveThisTrack } from '../../redux/actions'
 
-export default class LoginPage extends React.Component {
+class LoginPage extends React.Component {
   static navigationOptions = {
     header: null,
   }
@@ -24,14 +26,21 @@ export default class LoginPage extends React.Component {
   validateForm = () => {
     const { username, password } = this.state
     if (username === '' || password === '') return false
-    return false
+    return true
   }
 
   loginAction = async () => {
     const { username, password } = this.state
+    const { artist, track } = this.props.navigation.getParam('loveObj', '')
     if (this.validateForm()) {
-      ScreenAlert('Good', 'Lets go', [])
-      // pass parameters to redux function
+      // ScreenAlert('Good', 'Lets go', [])
+      const loveObj = {
+        track: encodeURI(track),
+        artist: encodeURI(artist),
+        username,
+        password,
+      }
+      this.props.loveThisTrack(loveObj)
     } else {
       ScreenAlert('Form error', 'Please fill both fields', [])
     }
@@ -77,5 +86,9 @@ LoginPage.propTypes = {
   navigation: PropTyes.shape({
     navigate: PropTyes.func.isRequired,
     pop: PropTyes.func,
+    getParam: PropTyes.func,
   }).isRequired,
+  loveThisTrack: PropTyes.func.isRequired,
 }
+
+export default connect(null, { loveThisTrack })(LoginPage)

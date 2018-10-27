@@ -87,14 +87,19 @@ class Tracks extends React.Component {
     }
   }
 
-  handleLoveTrack = async () => {
+  handleLoveTrack = async (artist, track) => {
     const api_sig = await appStorage.getApiSig()
     if (api_sig && api_sig !== '') {
       AlertScreen('Great', "You're already logged in", [])
       // create request
     } else {
       AlertScreen('Please log in', 'We need you to be logged in to be able to love this track', [])
-      this.props.navigation.navigate('Login')
+      this.props.navigation.navigate('Login', {
+        loveObj: {
+          artist,
+          track,
+        },
+      })
       // show modal for username/password
       // save locally
       // create request

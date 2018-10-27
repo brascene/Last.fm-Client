@@ -6,6 +6,7 @@ export class Storage {
     this.COUNTRIES = []
     this.COUNTRIES_KEY = config.StorageKeys.countries
     this.API_SIG_KEY = config.StorageKeys.api_sig
+    this.SESSION_KEY = config.StorageKeys.session_key
   }
 
   async storeApiSig(api_sig) {
@@ -16,9 +17,18 @@ export class Storage {
     await store.save(this.COUNTRIES_KEY, countries)
   }
 
+  async storeSessionKey(key) {
+    await store.save(this.SESSION_KEY, key)
+  }
+
   async getCountries() {
     const countries = await store.get(this.COUNTRIES_KEY)
     return countries
+  }
+
+  async getSessionKey() {
+    const session_key = await store.get(this.SESSION_KEY)
+    return session_key
   }
 
   async getApiSig() {
@@ -32,6 +42,10 @@ export class Storage {
 
   deleteApiSig() {
     return store.delete(this.API_SIG_KEY)
+  }
+
+  deleteSessionKey() {
+    return store.delete(this.SESSION_KEY)
   }
 }
 
