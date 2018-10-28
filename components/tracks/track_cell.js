@@ -18,17 +18,25 @@ export default class TrackCell extends React.PureComponent {
     } = this.props
     return (
       <TouchableWithoutFeedback onPress={() => didSelectRow({
-        name, artist, mbid, trackImageUrl, listeners, trackImageLarge,
+        name, artist, mbid, trackImageUrl, listeners, trackImageLarge, isLoved,
       })}
       >
         <View style={styles.cellContent}>
           <Image style={styles.cellImage} source={{ uri: trackImageUrl }} resizeMode="cover" />
           <View style={styles.trackData}>
-            <Text style={[styles.cellText, { color: isLoved ? 'red' : 'gray' }]}>{name}</Text>
-            <Text style={[styles.cellText, { color: isLoved ? 'red' : 'gray' }]}>{artist}</Text>
-            <Text style={[styles.cellText, { color: isLoved ? 'red' : 'gray' }]}>{`Listeners: ${listeners}`}</Text>
+            <Text style={styles.cellText}>{name}</Text>
+            <Text style={styles.cellText}>{artist}</Text>
+            <Text style={styles.cellText}>{`Listeners: ${listeners}`}</Text>
             <View style={styles.buttonView}>
-              <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite' }} title="Love" onPress={() => loveThisTrack(artist, name)} />
+              <Button
+                disabled={isLoved}
+                borderRadius={5}
+                containerViewStyle={styles.loveBtn}
+                backgroundColor="#d84aae"
+                rightIcon={{ name: 'favorite' }}
+                title={isLoved ? 'Loved' : 'Love'}
+                onPress={() => loveThisTrack(artist, name)}
+              />
               <Button
                 borderRadius={5}
                 containerViewStyle={styles.loveBtn}
@@ -36,7 +44,7 @@ export default class TrackCell extends React.PureComponent {
                 rightIcon={{ name: 'info' }}
                 title="Info"
                 onPress={() => didSelectRow({
-                  name, artist, mbid, trackImageUrl, listeners, trackImageLarge,
+                  name, artist, mbid, trackImageUrl, listeners, trackImageLarge, isLoved,
                 })}
               />
             </View>

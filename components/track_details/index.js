@@ -14,7 +14,7 @@ class TrackDetail extends React.PureComponent {
 
   render() {
     const {
-      name, artist, listeners, trackImageLarge,
+      name, artist, listeners, trackImageLarge, isLoved,
     } = this.props.navigation.getParam('track', '')
     return (
       <View style={styles.container}>
@@ -35,11 +35,12 @@ class TrackDetail extends React.PureComponent {
         </View>
         <View style={styles.loveView}>
           <Button
+            disabled={isLoved}
             borderRadius={5}
             containerViewStyle={styles.loveBtn}
             backgroundColor="#d84aae"
             rightIcon={{ name: 'favorite' }}
-            title="Love"
+            title={isLoved ? 'Loved' : 'Love'}
             onPress={() => this.props.loveTrack({ artist, name })}
           />
         </View>

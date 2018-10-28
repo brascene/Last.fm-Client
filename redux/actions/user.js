@@ -22,7 +22,6 @@ export const handleLovedTracks = data => (dispatch) => {
       }
       resultTracks.push(c)
     }
-    // console.log("Result loved tracks: ", resultTracks)
     dispatch({ type: GET_LOVED_TRACKS_SUCCESS, payload: resultTracks })
   }
   return false

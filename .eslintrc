@@ -37,7 +37,7 @@
     "class-methods-use-this": "off",
     "dot-notation": "off",
     "no-case-declarations": "off",
-    "no-continue":"off",
+    "no-continue": "off"
   },
   "env": {
     "jest": true

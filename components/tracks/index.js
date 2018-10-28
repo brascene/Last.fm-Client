@@ -74,11 +74,12 @@ class Tracks extends React.Component {
       AlertScreen('Success', 'Your track is added to loved!!', ['OK'], () => {
         this.props.resetLoveReq()
         this.props.navigation.navigate('Tracks')
+        this.props.getLovedTracks()
       })
     }
     if (nextProps.lovedTracks.length > 0 && !this.state.lovedTracksLoaded) {
       this.setState({ lovedTracksLoaded: true })
-      this.props.mapLovedTracks(nextProps.lovedTracks)
+      this.props.mapLovedTracks()
     }
   }
 
@@ -89,6 +90,7 @@ class Tracks extends React.Component {
   }
 
   pageChanged = (direction) => {
+    this.props.getLovedTracks()
     const { totalPages } = this.props
     const { currentPage } = this.state
     const country = this.props.navigation.getParam('country', '')

@@ -38,11 +38,12 @@ export const handleTracks = data => (dispatch) => {
       resultTracks.push(c)
     }
     dispatch({ type: TRACKS_REQUEST_SUCCESS, payload: { resultTracks, totalPages: data.tracks['@attr'].totalPages } })
+    dispatch({ type: MAP_LOVED_TRACKS })
   }
   return false
 }
 
-export const mapLovedTracks = lovedTracks => async dispatch => dispatch({ type: MAP_LOVED_TRACKS, payload: lovedTracks })
+export const mapLovedTracks = () => async dispatch => dispatch({ type: MAP_LOVED_TRACKS })
 
 export const getTopTracks = (country, page = 1) => async (dispatch) => {
   dispatch({ type: TRACKS_REQUEST })
