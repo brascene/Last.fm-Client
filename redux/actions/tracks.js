@@ -10,6 +10,7 @@ import {
   TRACK_LOVE_REQUEST_SUCCESS,
   TRACK_LOVE_REQUEST_FAILURE,
   TRACK_LOVE_REQ_RESET,
+  MAP_LOVED_TRACKS,
 } from './types'
 
 const queryString = require('query-string')
@@ -40,6 +41,8 @@ export const handleTracks = data => (dispatch) => {
   }
   return false
 }
+
+export const mapLovedTracks = lovedTracks => async dispatch => dispatch({ type: MAP_LOVED_TRACKS, payload: lovedTracks })
 
 export const getTopTracks = (country, page = 1) => async (dispatch) => {
   dispatch({ type: TRACKS_REQUEST })

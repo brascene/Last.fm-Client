@@ -23,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...INITIAL_STATE,
-        lovedTracks: action.payload.resultTracks,
+        lovedTracks: action.payload,
       }
     case GET_LOVED_TRACKS_FAILURE:
       const errorMessage = errorCodes[action.payload]

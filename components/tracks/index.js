@@ -8,7 +8,13 @@ import TableView from '../common/tableView'
 import TrackCell, { TrackCellSeparator } from './track_cell'
 import AlertScreen from '../common/alert'
 
-import { getTopTracks, loveTrack, resetLoveReq } from '../../redux/actions'
+import {
+  getTopTracks,
+  loveTrack,
+  resetLoveReq,
+  getLovedTracks,
+  mapLovedTracks,
+} from '../../redux/actions'
 
 import { appStorage } from '../../api/Storage'
 
@@ -25,6 +31,8 @@ class Tracks extends React.Component {
     currentPage: 1,
     message: '',
     shouldScrollToTop: false,
+    lovedTracksCalled: false,
+    lovedTracksLoaded: false,
   }
 
   componentDidMount() {
@@ -40,6 +48,8 @@ class Tracks extends React.Component {
         message: '',
         shouldScrollToTop: true,
       })
+      if (!this.state.lovedTracksCalled) this.props.getLovedTracks()
+      this.setState({ lovedTracksCalled: true })
     }
     if (!nextProps.hasError && !nextProps.loading && nextProps.topTracks.length === 0) {
       this.setState({
@@ -65,6 +75,10 @@ class Tracks extends React.Component {
         this.props.resetLoveReq()
         this.props.navigation.navigate('Tracks')
       })
+    }
+    if (nextProps.lovedTracks.length > 0 && !this.state.lovedTracksLoaded) {
+      this.setState({ lovedTracksLoaded: true })
+      this.props.mapLovedTracks(nextProps.lovedTracks)
     }
   }
 
@@ -170,6 +184,9 @@ Tracks.propTypes = {
   loveReqHasError: PropTypes.bool,
   loveReqSuccess: PropTypes.bool,
   resetLoveReq: PropTypes.func.isRequired,
+  getLovedTracks: PropTypes.func.isRequired,
+  lovedTracks: PropTypes.array,
+  mapLovedTracks: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {
@@ -181,6 +198,8 @@ const mapStateToProps = (state) => {
   const loveReqError = state.trackLove.error
   const loveReqSuccess = state.trackLove.success
 
+  const { lovedTracks } = state.userState
+
   return {
     topTracks: tracks,
     loading,
@@ -190,7 +209,10 @@ const mapStateToProps = (state) => {
     loveReqError,
     loveReqHasError,
     loveReqSuccess,
+    lovedTracks,
   }
 }
 
-export default connect(mapStateToProps, { getTopTracks, loveTrack, resetLoveReq })(Tracks)
+export default connect(mapStateToProps, {
+  getTopTracks, loveTrack, resetLoveReq, getLovedTracks, mapLovedTracks,
+})(Tracks)

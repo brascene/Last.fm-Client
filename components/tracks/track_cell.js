@@ -14,7 +14,7 @@ export const TrackCellSeparator = () => (
 export default class TrackCell extends React.PureComponent {
   render() {
     const {
-      artist, name, listeners, trackImageUrl, mbid, didSelectRow, trackImageLarge, loveThisTrack,
+      artist, name, listeners, trackImageUrl, mbid, didSelectRow, trackImageLarge, loveThisTrack, isLoved,
     } = this.props
     return (
       <TouchableWithoutFeedback onPress={() => didSelectRow({
@@ -24,9 +24,9 @@ export default class TrackCell extends React.PureComponent {
         <View style={styles.cellContent}>
           <Image style={styles.cellImage} source={{ uri: trackImageUrl }} resizeMode="cover" />
           <View style={styles.trackData}>
-            <Text style={styles.cellText}>{name}</Text>
-            <Text style={styles.cellText}>{artist}</Text>
-            <Text style={styles.cellText}>{`Listeners: ${listeners}`}</Text>
+            <Text style={[styles.cellText, { color: isLoved ? 'red' : 'gray' }]}>{name}</Text>
+            <Text style={[styles.cellText, { color: isLoved ? 'red' : 'gray' }]}>{artist}</Text>
+            <Text style={[styles.cellText, { color: isLoved ? 'red' : 'gray' }]}>{`Listeners: ${listeners}`}</Text>
             <View style={styles.buttonView}>
               <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite' }} title="Love" onPress={() => loveThisTrack(artist, name)} />
               <Button
@@ -51,6 +51,7 @@ TrackCell.propTypes = {
   name: PropTypes.string.isRequired,
   mbid: PropTypes.string.isRequired,
   artist: PropTypes.string.isRequired,
+  isLoved: PropTypes.bool,
   listeners: PropTypes.string.isRequired,
   trackImageUrl: PropTypes.string.isRequired,
   didSelectRow: PropTypes.func.isRequired,

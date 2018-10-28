@@ -10,10 +10,10 @@ import {
 } from './types'
 
 export const handleLovedTracks = data => (dispatch) => {
-  if (data.tracks.track.length > 0) {
+  if (data.lovedtracks.track.length > 0) {
     const resultTracks = []
-    for (let i = 0; i < data.tracks.track.length; i += 1) {
-      const currentTrack = data.tracks.track[i]
+    for (let i = 0; i < data.lovedtracks.track.length; i += 1) {
+      const currentTrack = data.lovedtracks.track[i]
       const c = {
         key: i.toString(),
         name: currentTrack.name,
@@ -22,6 +22,7 @@ export const handleLovedTracks = data => (dispatch) => {
       }
       resultTracks.push(c)
     }
+    // console.log("Result loved tracks: ", resultTracks)
     dispatch({ type: GET_LOVED_TRACKS_SUCCESS, payload: resultTracks })
   }
   return false
