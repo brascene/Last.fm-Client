@@ -8,8 +8,7 @@ import TableView from '../common/tableView'
 import TrackCell, { TrackCellSeparator } from './track_cell'
 import AlertScreen from '../common/alert'
 
-import { getTopTracks } from '../../redux/actions'
-// import { loveThisTrack } from '../../redux/actions'
+import { getTopTracks, loveTrack, resetLoveReq } from '../../redux/actions'
 
 import { appStorage } from '../../api/Storage'
 
@@ -58,6 +57,15 @@ class Tracks extends React.Component {
       })
       AlertScreen('Request error', nextProps.error, ['OK'])
     }
+    if (nextProps.loveReqHasError) {
+      AlertScreen('Error', nextProps.loveReqError, ['OK'], this.props.resetLoveReq)
+    }
+    if (nextProps.loveReqSuccess) {
+      AlertScreen('Success', 'Your track is added to loved!!', ['OK'], () => {
+        this.props.resetLoveReq()
+        this.props.navigation.navigate('Tracks')
+      })
+    }
   }
 
   didSelectRow = (track) => {
@@ -88,10 +96,10 @@ class Tracks extends React.Component {
   }
 
   handleLoveTrack = async (artist, track) => {
-    const api_sig = await appStorage.getApiSig()
-    if (api_sig && api_sig !== '') {
-      AlertScreen('Great', "You're already logged in", [])
-      // create request
+    const session_key = await appStorage.getSessionKey()
+    if (session_key && session_key !== '') {
+      const loveObj = { artist, track }
+      this.props.loveTrack(loveObj)
     } else {
       AlertScreen('Please log in', 'We need you to be logged in to be able to love this track', [])
       this.props.navigation.navigate('Login', {
@@ -100,9 +108,6 @@ class Tracks extends React.Component {
           track,
         },
       })
-      // show modal for username/password
-      // save locally
-      // create request
     }
   }
 
@@ -156,23 +161,36 @@ Tracks.propTypes = {
   }).isRequired,
   getTopTracks: PropTypes.func.isRequired,
   topTracks: PropTypes.array.isRequired,
+  loveTrack: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
   hasError: PropTypes.bool.isRequired,
   error: PropTypes.string.isRequired,
   totalPages: PropTypes.number.isRequired,
+  loveReqError: PropTypes.string,
+  loveReqHasError: PropTypes.bool,
+  loveReqSuccess: PropTypes.bool,
+  resetLoveReq: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {
   const {
     tracks, loading, hasError, error, totalPages,
   } = state.tracksState
+
+  const loveReqHasError = state.trackLove.hasError
+  const loveReqError = state.trackLove.error
+  const loveReqSuccess = state.trackLove.success
+
   return {
     topTracks: tracks,
     loading,
     hasError,
     error,
     totalPages: parseInt(totalPages),
+    loveReqError,
+    loveReqHasError,
+    loveReqSuccess,
   }
 }
 
-export default connect(mapStateToProps, { getTopTracks })(Tracks)
+export default connect(mapStateToProps, { getTopTracks, loveTrack, resetLoveReq })(Tracks)

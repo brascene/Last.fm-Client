@@ -1,11 +1,18 @@
 import Service from '../../api'
 import config from '../../api/config'
+import { appStorage } from '../../api/Storage'
 
 import {
   TRACKS_REQUEST,
   TRACKS_REQUEST_SUCCESS,
   TRACKS_REQUEST_FAILURE,
+  TRACK_LOVE_REQUEST,
+  TRACK_LOVE_REQUEST_SUCCESS,
+  TRACK_LOVE_REQUEST_FAILURE,
+  TRACK_LOVE_REQ_RESET,
 } from './types'
+
+const queryString = require('query-string')
 
 function getCountryName(country) {
   if (country.indexOf('America') !== -1) return 'United States'
@@ -60,3 +67,80 @@ export const getTopTracks = (country, page = 1) => async (dispatch) => {
   }
   return true
 }
+
+// Track.love
+
+const loveRequest = ({ saved_session_key, artist, track }) => async (dispatch) => {
+  const api_sig_love = await Service().createApiSignatureLove(artist, track)
+
+  const body = {
+    method: 'track.love',
+    artist: encodeURI(artist),
+    track: encodeURI(track),
+    api_key: config.FM.APIKey,
+    api_sig: api_sig_love.toString(),
+    sk: saved_session_key,
+  }
+  const endpoint = '?format=json'
+  const header = {
+    'Content-type': config.API.xForm,
+  }
+  const data = queryString.stringify(body)
+
+  try {
+    const loveResponse = await Service().makeRequest('post', endpoint, data, header)
+    if (Object.keys(loveResponse).length === 0) {
+      return dispatch({
+        type: TRACK_LOVE_REQUEST_SUCCESS,
+        payload: 31,
+      })
+    }
+    return dispatch({
+      type: TRACK_LOVE_REQUEST_FAILURE,
+      payload: 30,
+    })
+  } catch (error) {
+    return dispatch({
+      type: TRACK_LOVE_REQUEST_FAILURE,
+      payload: 30,
+    })
+  }
+}
+
+export const loveTrack = loveObj => async (dispatch) => {
+  const {
+    track,
+    artist,
+    username,
+    password,
+  } = loveObj
+
+  dispatch({ type: TRACK_LOVE_REQUEST })
+
+  // If already authenticated - session key is stored locally
+  const saved_session_key = await appStorage.getSessionKey()
+  if (saved_session_key && saved_session_key.toString() !== '') {
+    return dispatch(loveRequest({ saved_session_key: saved_session_key.toString(), track, artist }))
+  }
+
+  // If not authhenticated - perfom auth and love request
+  const api_sig = await Service().createApiSignature(username, password)
+  const endpoint = `?method=auth.getMobileSession&password=${encodeURIComponent(password)}&username=${username}&api_key=${config.FM.APIKey}&api_sig=${api_sig}&format=json`
+
+  try {
+    const sessionData = await Service().makeRequest('post', endpoint, null, null)
+    if (sessionData['session'] !== undefined) {
+      const sessionObj = sessionData['session']
+      const session_key = sessionObj['key']
+      const username = sessionObj['name']
+      await appStorage.storeUsername(username)
+      await appStorage.storeSessionKey(session_key)
+      return dispatch(loveRequest({ saved_session_key: session_key, artist, track }))
+    }
+    return dispatch({ type: TRACK_LOVE_REQUEST_FAILURE, payload: 30 })
+  } catch (error) {
+    return dispatch({ type: TRACK_LOVE_REQUEST_FAILURE, payload: 30 })
+  }
+}
+
+export const resetLoveReq = () => dispatch => dispatch({ type: TRACK_LOVE_REQ_RESET })

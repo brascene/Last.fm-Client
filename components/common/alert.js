@@ -1,12 +1,12 @@
 import { Alert } from 'react-native'
 
-const getOptions = (options) => {
+const getOptions = (options, callback) => {
   switch (options.length) {
     case 0:
-      return [{ text: options[0] }]
+      return [{ text: options[0], onPress: () => callback && callback() }]
     case 1:
       return [
-        { text: options[0] },
+        { text: options[0], onPress: () => callback() },
         {
           text: options[1],
           style: 'cancel',
@@ -17,6 +17,6 @@ const getOptions = (options) => {
   }
 }
 
-const ScreenAlert = (title, msg, opt) => Alert.alert(title, msg, getOptions(opt), { cancelable: false })
+const ScreenAlert = (title, msg, opt, callback) => Alert.alert(title, msg, getOptions(opt, callback), { cancelable: false })
 
 export default ScreenAlert

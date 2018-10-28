@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-// import { loveThisTrack } from '../../redux/actions'
+import { loveTrack } from '../../redux/actions'
 import styles from './styles'
 
 class TrackDetail extends React.PureComponent {
@@ -34,7 +34,14 @@ class TrackDetail extends React.PureComponent {
           </Text>
         </View>
         <View style={styles.loveView}>
-          <Button borderRadius={5} containerViewStyle={styles.loveBtn} backgroundColor="#d84aae" rightIcon={{ name: 'favorite' }} title="Love" onPress={() => this.props.loveThisTrack()} />
+          <Button
+            borderRadius={5}
+            containerViewStyle={styles.loveBtn}
+            backgroundColor="#d84aae"
+            rightIcon={{ name: 'favorite' }}
+            title="Love"
+            onPress={() => this.props.loveTrack({ artist, name })}
+          />
         </View>
       </View>
     )
@@ -42,11 +49,11 @@ class TrackDetail extends React.PureComponent {
 }
 
 TrackDetail.propTypes = {
-  loveThisTrack: PropTypes.func.isRequired,
+  loveTrack: PropTypes.func.isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
     getParam: PropTypes.func,
   }).isRequired,
 }
 
-export default connect(null, {})(TrackDetail)
+export default connect(null, { loveTrack })(TrackDetail)

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
-import PropTyes from 'prop-types'
+import PropTypes from 'prop-types'
 import { SearchBar } from 'react-native-elements'
 
 import styles from './styles'
@@ -109,14 +109,14 @@ class CountriesPage extends React.Component {
 }
 
 CountriesPage.propTypes = {
-  getCountries: PropTyes.func.isRequired,
-  filterCountries: PropTyes.func.isRequired,
-  saveLocalCountries: PropTyes.func.isRequired,
-  isFiltering: PropTyes.bool.isRequired,
-  filteredCountries: PropTyes.array.isRequired,
-  countries: PropTyes.array.isRequired,
-  navigation: PropTyes.shape({
-    navigate: PropTyes.func.isRequired,
+  getCountries: PropTypes.func.isRequired,
+  filterCountries: PropTypes.func.isRequired,
+  saveLocalCountries: PropTypes.func.isRequired,
+  isFiltering: PropTypes.bool.isRequired,
+  filteredCountries: PropTypes.array.isRequired,
+  countries: PropTypes.array.isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
   }).isRequired,
 }
 

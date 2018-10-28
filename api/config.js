@@ -10,6 +10,7 @@ export default {
     countries: 'countries',
     api_sig: 'api_sig',
     session_key: 'session_key',
+    username: 'username',
   },
   API: {
     contentType: 'application/json',

@@ -4,14 +4,15 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native'
 import { Button } from 'react-native-elements'
-import PropTyes from 'prop-types'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import ScreenAlert from '../common/alert'
 import styles from './styles'
-import { loveThisTrack } from '../../redux/actions'
+import { loveTrack } from '../../redux/actions'
 
 class LoginPage extends React.Component {
   static navigationOptions = {
@@ -21,6 +22,16 @@ class LoginPage extends React.Component {
   state = {
     username: '',
     password: '',
+    loading: false,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.loveReqLoading && nextProps.loveReqSuccess) {
+      this.setState({ loading: false })
+    }
+    if (nextProps.loveReqHasError) {
+      this.setState({ loading: false })
+    }
   }
 
   validateForm = () => {
@@ -33,20 +44,21 @@ class LoginPage extends React.Component {
     const { username, password } = this.state
     const { artist, track } = this.props.navigation.getParam('loveObj', '')
     if (this.validateForm()) {
-      // ScreenAlert('Good', 'Lets go', [])
+      this.setState({ loading: true })
       const loveObj = {
         track: encodeURI(track),
         artist: encodeURI(artist),
         username,
         password,
       }
-      this.props.loveThisTrack(loveObj)
+      this.props.loveTrack(loveObj)
     } else {
       ScreenAlert('Form error', 'Please fill both fields', [])
     }
   }
 
   render() {
+    const { loading } = this.state
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -75,6 +87,7 @@ class LoginPage extends React.Component {
               <Button borderRadius={5} containerViewStyle={styles.button} backgroundColor="#d84aae" small title="Login" onPress={this.loginAction} />
               <Button borderRadius={5} containerViewStyle={styles.button} backgroundColor="#d84aae" small title="Dismiss" onPress={() => this.props.navigation.pop()} />
             </View>
+            <ActivityIndicator animating={loading} size="large" color="#0000ff" />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -82,13 +95,30 @@ class LoginPage extends React.Component {
   }
 }
 
-LoginPage.propTypes = {
-  navigation: PropTyes.shape({
-    navigate: PropTyes.func.isRequired,
-    pop: PropTyes.func,
-    getParam: PropTyes.func,
-  }).isRequired,
-  loveThisTrack: PropTyes.func.isRequired,
+const mapStateToProps = (state) => {
+  const loveReqHasError = state.trackLove.hasError
+  const loveReqError = state.trackLove.error
+  const loveReqSuccess = state.trackLove.success
+  const loveReqLoading = state.trackLove.loading
+
+  return {
+    loveReqHasError,
+    loveReqError,
+    loveReqSuccess,
+    loveReqLoading,
+  }
 }
 
-export default connect(null, { loveThisTrack })(LoginPage)
+LoginPage.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+    pop: PropTypes.func,
+    getParam: PropTypes.func,
+  }).isRequired,
+  loveTrack: PropTypes.func.isRequired,
+  loveReqHasError: PropTypes.bool,
+  loveReqSuccess: PropTypes.bool,
+  loveReqLoading: PropTypes.bool,
+}
+
+export default connect(mapStateToProps, { loveTrack })(LoginPage)

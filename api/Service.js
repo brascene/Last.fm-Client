@@ -27,11 +27,11 @@ class Service {
 
   async createApiSignatureLove(a, t) {
     const api_key = `api_key${config.FM.APIKey}`
-    const artist = `artist${this.encodeSearchParam(a)}`
+    const artist = `artist${encodeURI(a)}`
     const method = 'methodtrack.love'
     const session_key = await appStorage.getSessionKey()
     const sk = `sk${session_key}`
-    const track = `track${this.encodeSearchParam(t)}`
+    const track = `track${encodeURI(t)}`
     const secret = config.FM.sharedSecret
     const p = api_key + artist + method + sk + track + secret
     const api_sig = md5(p)
@@ -49,8 +49,6 @@ class Service {
     } else {
       constructedUrl = `${this.API_BASE_URL}${endpoint}`
     }
-
-    console.log("Constructed url: ", constructedUrl)
 
     const axiosConfig = {
       method,
