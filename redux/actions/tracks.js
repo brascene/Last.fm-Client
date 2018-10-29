@@ -47,12 +47,15 @@ export const mapLovedTracks = () => async dispatch => dispatch({ type: MAP_LOVED
 
 export const getTopTracks = (country, page = 1) => async (dispatch) => {
   dispatch({ type: TRACKS_REQUEST })
+
   const countryName = getCountryName(country)
   try {
     const endpoint = `?method=geo.gettoptracks&country=${countryName}&api_key=${config.FM.APIKey}&format=json&limit=50&page=${page}`
     const data = await Service().makeRequest('get', endpoint, null, null)
 
+    console.log(data)
     if (data['error'] !== undefined) {
+      console.log('error')
       return dispatch({
         type: TRACKS_REQUEST_FAILURE,
         payload: data.error,
