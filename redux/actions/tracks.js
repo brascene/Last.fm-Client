@@ -13,6 +13,8 @@ import {
   MAP_LOVED_TRACKS,
 } from './types'
 
+import checkConnection from '../../utils/connection'
+
 const queryString = require('query-string')
 
 function getCountryName(country) {
@@ -47,30 +49,42 @@ export const mapLovedTracks = () => async dispatch => dispatch({ type: MAP_LOVED
 
 export const getTopTracks = (country, page = 1) => async (dispatch) => {
   dispatch({ type: TRACKS_REQUEST })
-
-  const countryName = getCountryName(country)
   try {
-    const endpoint = `?method=geo.gettoptracks&country=${countryName}&api_key=${config.FM.APIKey}&format=json&limit=50&page=${page}`
-    const data = await Service().makeRequest('get', endpoint, null, null)
+    const connected = await checkConnection()
+    if (connected) {
+      const countryName = getCountryName(country)
+      try {
+        const endpoint = `?method=geo.gettoptracks&country=${countryName}&api_key=${config.FM.APIKey}&format=json&limit=50&page=${page}`
+        const data = await Service().makeRequest('get', endpoint, null, null)
 
-    console.log(data)
-    if (data['error'] !== undefined) {
-      console.log('error')
+        if (data['error'] !== undefined) {
+          return dispatch({
+            type: TRACKS_REQUEST_FAILURE,
+            payload: data.error,
+          })
+        }
+        return dispatch(handleTracks(data))
+      } catch (error) {
+        if (error['response'] !== undefined) {
+          const errorObject = error['response'].data
+          const errorCode = errorObject['error']
+          return dispatch({
+            type: TRACKS_REQUEST_FAILURE,
+            payload: errorCode,
+          })
+        }
+      }
+    } else {
       return dispatch({
         type: TRACKS_REQUEST_FAILURE,
-        payload: data.error,
+        payload: 32,
       })
     }
-    return dispatch(handleTracks(data))
   } catch (error) {
-    if (error['response'] !== undefined) {
-      const errorObject = error['response'].data
-      const errorCode = errorObject['error']
-      return dispatch({
-        type: TRACKS_REQUEST_FAILURE,
-        payload: errorCode,
-      })
-    }
+    return dispatch({
+      type: TRACKS_REQUEST_FAILURE,
+      payload: 32,
+    })
   }
   return true
 }
@@ -124,29 +138,46 @@ export const loveTrack = loveObj => async (dispatch) => {
 
   dispatch({ type: TRACK_LOVE_REQUEST })
 
-  // If already authenticated - session key is stored locally
-  const saved_session_key = await appStorage.getSessionKey()
-  if (saved_session_key && saved_session_key.toString() !== '') {
-    return dispatch(loveRequest({ saved_session_key: saved_session_key.toString(), track, artist }))
-  }
-
-  // If not authhenticated - perfom auth and love request
-  const api_sig = await Service().createApiSignature(username, password)
-  const endpoint = `?method=auth.getMobileSession&password=${encodeURIComponent(password)}&username=${username}&api_key=${config.FM.APIKey}&api_sig=${api_sig}&format=json`
+  // check connection
 
   try {
-    const sessionData = await Service().makeRequest('post', endpoint, null, null)
-    if (sessionData['session'] !== undefined) {
-      const sessionObj = sessionData['session']
-      const session_key = sessionObj['key']
-      const username = sessionObj['name']
-      await appStorage.storeUsername(username)
-      await appStorage.storeSessionKey(session_key)
-      return dispatch(loveRequest({ saved_session_key: session_key, artist, track }))
+    const connected = await checkConnection()
+    if (connected) {
+      // If already authenticated - session key is stored locally
+      const saved_session_key = await appStorage.getSessionKey()
+      if (saved_session_key && saved_session_key.toString() !== '') {
+        return dispatch(loveRequest({ saved_session_key: saved_session_key.toString(), track, artist }))
+      }
+
+      // If not authhenticated - perfom auth and love request
+      const api_sig = await Service().createApiSignature(username, password)
+      const endpoint = `?method=auth.getMobileSession&password=${encodeURIComponent(password)}&username=${username}&api_key=${config.FM.APIKey}&api_sig=${api_sig}&format=json`
+
+      try {
+        const sessionData = await Service().makeRequest('post', endpoint, null, null)
+        if (sessionData['session'] !== undefined) {
+          const sessionObj = sessionData['session']
+          const session_key = sessionObj['key']
+          const username = sessionObj['name']
+          await appStorage.storeUsername(username)
+          await appStorage.storeSessionKey(session_key)
+          return dispatch(loveRequest({ saved_session_key: session_key, artist, track }))
+        }
+        return dispatch({ type: TRACK_LOVE_REQUEST_FAILURE, payload: 30 })
+      } catch (error) {
+        return dispatch({ type: TRACK_LOVE_REQUEST_FAILURE, payload: 30 })
+      }
+    } else {
+      return dispatch({
+        type: TRACK_LOVE_REQUEST_FAILURE,
+        payload: 32,
+      })
     }
-    return dispatch({ type: TRACK_LOVE_REQUEST_FAILURE, payload: 30 })
   } catch (error) {
-    return dispatch({ type: TRACK_LOVE_REQUEST_FAILURE, payload: 30 })
+    return dispatch({
+      type: TRACK_LOVE_REQUEST_FAILURE,
+      payload: 32,
+    })
   }
 }
 

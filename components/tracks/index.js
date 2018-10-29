@@ -65,7 +65,7 @@ class Tracks extends React.Component {
         message: '',
         shouldScrollToTop: false,
       })
-      AlertScreen('Request error', nextProps.error, ['OK'])
+      AlertScreen('Request error', nextProps.error, ['OK'], () => {})
     }
     if (nextProps.loveReqHasError) {
       AlertScreen('Error', nextProps.loveReqError, ['OK'], this.props.resetLoveReq)

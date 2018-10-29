@@ -40,14 +40,10 @@ class Service {
 
   async makeRequest(method, endpoint, body, header) {
     let constructedUrl = ''
-    if (endpoint === 'restcountries') {
-      constructedUrl = this.COUNTRIES_URL
-    }
-
     if (method === 'post') {
       constructedUrl = `${this.API_BASE_URL_S}${endpoint}`
     } else {
-      constructedUrl = `${this.API_BASE_URL}${endpoint}`
+      constructedUrl = endpoint === 'restcountries' ? this.COUNTRIES_URL : `${this.API_BASE_URL}${endpoint}`
     }
 
     const axiosConfig = {

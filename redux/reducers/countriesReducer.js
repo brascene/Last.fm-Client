@@ -7,6 +7,8 @@ import {
   FILTER_COUNTRIES_CLEAR,
 } from '../actions/types'
 
+import { errorCodes } from '../../utils/errors'
+
 export const INITIAL_STATE = {
   countries: [],
   loading: false,
@@ -28,11 +30,14 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         ...INITIAL_STATE,
         countries: action.payload,
+        error: '',
+        hasError: false,
+        loading: false,
       }
     case COUNTRIES_REQUEST_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        error: errorCodes[action.payload],
         hasError: true,
         loading: false,
       }

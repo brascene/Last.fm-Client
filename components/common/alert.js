@@ -3,7 +3,7 @@ import { Alert } from 'react-native'
 const getOptions = (options, callback) => {
   switch (options.length) {
     case 0:
-      return [{ text: options[0], onPress: () => callback && callback() }]
+      return [{ text: 'OK', onPress: () => callback && callback() }]
     case 1:
       return [
         { text: options[0], onPress: () => callback() },

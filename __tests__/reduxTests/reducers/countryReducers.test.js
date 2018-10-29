@@ -13,16 +13,6 @@ const initialState = {
 
 const mockCountries = [{ name: 'Bosnia' }, { name: 'Croatia' }, { name: 'Serbia' }, { name: 'Herzegovina' }]
 
-const fullState = {
-  countries: mockCountries,
-  loading: false,
-  hasError: false,
-  error: '',
-  isFiltering: false,
-  filterValue: '',
-  filteredCountries: [],
-}
-
 it('Case: default', () => {
   expect(countriesReducer(undefined, {})).toEqual(initialState)
 })

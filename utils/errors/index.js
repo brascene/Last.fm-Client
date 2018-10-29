@@ -29,4 +29,5 @@ export const errorCodes = {
   29: 'Rate Limit Exceded - Your IP has made too many requests in a short period, exceeding our API guidelines',
   30: 'There was an error with your request, please try again later.',
   31: 'You\'ve succcessfully added track to loved list!',
+  32: 'Seems like you have a problem connecting to internet',
 }

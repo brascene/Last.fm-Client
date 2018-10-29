@@ -1,6 +1,8 @@
 import Service from '../../api'
 import { appStorage } from '../../api/Storage'
 
+import checkConnection from '../../utils/connection'
+
 import {
   COUNTRIES_REQUEST,
   COUNTRIES_REQUEST_SUCCESS,
@@ -36,12 +38,27 @@ export const handleCountries = countries => async (dispatch) => {
 export const getCountries = () => async (dispatch) => {
   dispatch({ type: COUNTRIES_REQUEST })
   try {
-    const data = await Service().makeRequest('get', 'restcountries', null, null)
-    return dispatch(handleCountries(data))
+    const connected = await checkConnection()
+    if (connected) {
+      try {
+        const data = await Service().makeRequest('get', 'restcountries', null, null)
+        return dispatch(handleCountries(data))
+      } catch (error) {
+        return dispatch({
+          type: COUNTRIES_REQUEST_FAILURE,
+          payload: error.message,
+        })
+      }
+    } else {
+      return dispatch({
+        type: COUNTRIES_REQUEST_FAILURE,
+        payload: 32,
+      })
+    }
   } catch (error) {
     return dispatch({
       type: COUNTRIES_REQUEST_FAILURE,
-      payload: error.message,
+      payload: 32,
     })
   }
 }

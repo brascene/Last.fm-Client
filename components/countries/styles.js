@@ -1,7 +1,9 @@
 import { StyleSheet, Dimensions } from 'react-native'
 
-const width = Dimensions.get('window').width * 0.8
-const height = Dimensions.get('window').height * 0.25
+const w = Dimensions.get('window').width
+const h = Dimensions.get('window').height
+const width = w * 0.8
+const height = h * 0.25
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +53,15 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: '#CED0CE',
+  },
+  reloadView: {
+    position: 'absolute',
+    width: w * 0.3,
+    height: w * 0.3,
+    top: h * 0.5 - w * 0.3,
+    left: w * 0.35,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 
