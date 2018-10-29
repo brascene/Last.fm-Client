@@ -12,10 +12,21 @@ class TrackDetail extends React.PureComponent {
     title: 'Details',
   }
 
+  state = {
+    isLovedState: false,
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.loveReqSuccess) {
+      this.setState({ isLovedState: true })
+    }
+  }
+
   render() {
     const {
       name, artist, listeners, trackImageLarge, isLoved,
     } = this.props.navigation.getParam('track', '')
+    const { isLovedState } = this.state
     return (
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: trackImageLarge }} resizeMode="cover" />
@@ -35,7 +46,7 @@ class TrackDetail extends React.PureComponent {
         </View>
         <View style={styles.loveView}>
           <Button
-            disabled={isLoved}
+            disabled={isLoved || isLovedState}
             borderRadius={5}
             containerViewStyle={styles.loveBtn}
             backgroundColor="#d84aae"
@@ -51,10 +62,19 @@ class TrackDetail extends React.PureComponent {
 
 TrackDetail.propTypes = {
   loveTrack: PropTypes.func.isRequired,
+  loveReqSuccess: PropTypes.bool,
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
     getParam: PropTypes.func,
   }).isRequired,
 }
 
-export default connect(null, { loveTrack })(TrackDetail)
+const mapStateToProps = (state) => {
+  const loveReqSuccess = state.trackLove.success
+
+  return {
+    loveReqSuccess,
+  }
+}
+
+export default connect(mapStateToProps, { loveTrack })(TrackDetail)
