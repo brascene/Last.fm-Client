@@ -2,10 +2,13 @@
 
 React Native mobile client for Last.fm
 
-Update: created countries list screen so that user can see the top tracks for his country.
-
 Goal: Three screens
 
 1. Country list
-2. Top tracks
+2. Top tracks by country
+  2.1 Love track option
+  2.2 Show already loved tracks
+  2.3 Paging
 3. Track details
+  3.1 Love track option
+4. Login
