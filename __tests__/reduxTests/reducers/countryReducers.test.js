@@ -30,11 +30,11 @@ it('Case: countries fetched', () => {
 it('Case: countries error', () => {
   expect(countriesReducer(initialState, {
     type: types.COUNTRIES_REQUEST_FAILURE,
-    payload: 'failed countries',
+    payload: 32,
   })).toEqual({
     ...initialState,
     hasError: true,
-    error: 'failed countries',
+    error: 'Seems like you have a problem connecting to internet',
   })
 })
 
