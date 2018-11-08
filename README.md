@@ -2,7 +2,7 @@
 
 React Native mobile client for Last.fm
 
-Run the app with: (make sure you have installe Expo client on your device)
+Run the app with: (make sure you have installed Expo client on your device)
 1. yarn
 2. expo init
 3. scan the qr code with your device
