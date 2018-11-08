@@ -2,6 +2,11 @@
 
 React Native mobile client for Last.fm
 
+Run the app with: (make sure you have installe Expo client on your device)
+1. yarn
+2. expo init
+3. scan the qr code with your device
+
 Screens:
 ### 1. Country list 
 Pick your country to see its top tracks. Use search bar for direct search or scroll down the list.
