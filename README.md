@@ -26,21 +26,17 @@ Log in with your credentials the first time you want to make a track loved.
 
 ### Screenshots
 
-Splash screen
+<div style="display: flex; flex-direction: "row">
 <img src="/screenshots/splash.PNG" width="375" height="667" />
-
-Countries list
 <img src="/screenshots/countries.PNG" width="375" height="667" />
+</div>
 
-Top tracks list
+
 <img src="/screenshots/topTracks.PNG" width="375" height="667" />
 
-Track is loved
 <img src="/screenshots/trackLoved.PNG" width="375" height="667" />
 
-Top tracks list showing loved ones
 <img src="/screenshots/topTracksWithLoved.PNG" width="375" height="667" />
 
-Track details
 <img src="/screenshots/trackDetails.PNG" width="375" height="667" />
 
