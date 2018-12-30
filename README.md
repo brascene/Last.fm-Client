@@ -27,17 +27,15 @@ Log in with your credentials the first time you want to make a track loved.
 ### Screenshots
 
 ![Splash screen](/screenshots/splash.PNG)
+<img src="/screenshots/splash.PNG" width="375" height="667" />
 
-![Countries list](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.PNG =375x667 )
+![Countries list](/screenshots/countries.PNG =375x667)
 
-![Top tracks list
-](/screenshots/topTracks.PNG)
+![Top tracks list](/screenshots/topTracks.PNG)
 
-![Track is loved
-](/screenshots/trackLoved.PNG)
+![Track is loved](/screenshots/trackLoved.PNG)
 
-![Top tracks list showing loved ones
-](/screenshots/topTracksWithLoved.PNG)
+![Top tracks list showing loved ones](/screenshots/topTracksWithLoved.PNG)
 
 ![Track details
 ](/screenshots/trackDetails.PNG)
