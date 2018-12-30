@@ -26,7 +26,7 @@ Log in with your credentials the first time you want to make a track loved.
 
 ### Screenshots
 
-![Splash screen](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/splash.PNG)
+![Splash screen](/screenshots/splash.PNG)
 
 ![Countries list](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.PNG)
 
