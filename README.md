@@ -23,3 +23,23 @@ Explore track's details (album cover, artist, title etc.)
   Make the tracks loved as in screen 2.
 ### 4. Login
 Log in with your credentials the first time you want to make a track loved.
+
+### Screenshots
+
+Splash screen
+![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/splash.png)
+
+Countries list
+![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.png)
+
+Top tracks list
+![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracks.png)
+
+Track is loved
+![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackLoved.png)
+
+Top tracks list showing loved ones
+![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracksWithLoved.png)
+
+Track details
+![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackDetails.png)
