@@ -30,12 +30,12 @@ Log in with your credentials the first time you want to make a track loved.
 <img src="/screenshots/splash.PNG" width="375" height="667" />
 <img src="/screenshots/countries.PNG" width="375" height="667" />
 </div>
-
+<br />
 <div style="display: flex; flex-direction: "row"; justify-content: "center"; align-items: "center";>
 <img src="/screenshots/topTracks.PNG" width="375" height="667" />
 <img src="/screenshots/trackLoved.PNG" width="375" height="667" />
 </div>
-
+<br />
 <div style="display: flex; flex-direction: "row"; justify-content: "center"; align-items: "center";>
 <img src="/screenshots/topTracksWithLoved.PNG" width="375" height="667" />
 <img src="/screenshots/trackDetails.PNG" width="375" height="667" />
