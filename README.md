@@ -26,20 +26,18 @@ Log in with your credentials the first time you want to make a track loved.
 
 ### Screenshots
 
-Splash screen
-![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/splash.PNG)
+![Splash screen](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/splash.PNG)
 
-Countries list
-![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.PNG)
+![Countries list](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.PNG)
 
-Top tracks list
-![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracks.PNG)
+![Top tracks list
+](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracks.PNG)
 
-Track is loved
-![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackLoved.PNG)
+![Track is loved
+](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackLoved.PNG)
 
-Top tracks list showing loved ones
-![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracksWithLoved.PNG)
+![Top tracks list showing loved ones
+](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracksWithLoved.PNG)
 
-Track details
-![alt text](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackDetails.PNG)
+![Track details
+](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackDetails.PNG)
