@@ -28,16 +28,16 @@ Log in with your credentials the first time you want to make a track loved.
 
 ![Splash screen](/screenshots/splash.PNG)
 
-![Countries list](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.PNG)
+![Countries list](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/countries.PNG =375x667 )
 
 ![Top tracks list
-](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracks.PNG)
+](/screenshots/topTracks.PNG)
 
 ![Track is loved
-](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackLoved.PNG)
+](/screenshots/trackLoved.PNG)
 
 ![Top tracks list showing loved ones
-](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/topTracksWithLoved.PNG)
+](/screenshots/topTracksWithLoved.PNG)
 
 ![Track details
-](https://github.com/brascene/Last.fm-Client/tree/master/screenshots/trackDetails.PNG)
+](/screenshots/trackDetails.PNG)
